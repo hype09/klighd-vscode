@@ -25,6 +25,7 @@ import { connectToLanguageServer } from './ls-connection'
 interface WebSocketOptions {
     lsPort?: number
     lsPath?: string
+    lsHost?: string
 }
 
 /** Fastify plugin that forwards incoming websocket connections to a language server. */
@@ -34,7 +35,7 @@ const webSocketHandler: FastifyPluginAsync<WebSocketOptions> = async (fastifyIns
     // Setup WebSocket handler
     fastifyInstance.get('/socket', { websocket: true }, (conn) => {
         // Connection established. Spawn a LS for the connection and stream messages
-        connectToLanguageServer(conn.socket, fastifyInstance.log, opts.lsPort, opts.lsPath)
+        connectToLanguageServer(conn.socket, fastifyInstance.log, opts.lsPort, opts.lsPath, opts.lsHost)
     })
 }
 

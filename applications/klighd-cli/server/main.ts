@@ -29,8 +29,9 @@ import { getArgValue, parseIntOrUndefined } from './helpers'
 
     const lsPort = parseIntOrUndefined(getArgValue('ls_port'))
     const lsPath = getArgValue('ls_path') ?? defaultLSPath
+    const lsHost = getArgValue('ls_host')
 
-    const server = createServer({ logging: 'debug', lsPort, lsPath })
+    const server = createServer({ logging: 'debug', lsPort, lsPath, lsHost })
     const address = getArgValue('address') ?? undefined
     try {
         await server.listen(8000, address)

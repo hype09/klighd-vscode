@@ -37,7 +37,8 @@ export function connectToLanguageServer(
     client: WebSocket,
     logger: FastifyLoggerInstance,
     lsPort?: number,
-    lsPath?: string
+    lsPath?: string,
+    lsHost?: string,
 ): () => void {
     const webSocket = transformWebSocketToIWebSocket(client)
     const clientConnection = rpcServer.createWebSocketConnection(webSocket)
@@ -51,7 +52,7 @@ export function connectToLanguageServer(
         })
 
         logger.info('Forwarding to language server socket.')
-        socket.connect(lsPort)
+        socket.connect(lsPort, lsHost ?? 'localhost')
     } else if (lsPath) {
         const args = ['-jar', '-Djava.awt.headless=true', lsPath]
         lsConn = rpcServer.createServerProcess('Language Server', 'java', args)
